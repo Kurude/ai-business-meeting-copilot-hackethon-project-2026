@@ -627,3 +627,7 @@ _candidate_dirs = [
 FRONTEND_DIR = next((d for d in _candidate_dirs if os.path.isdir(d)), None)
 if FRONTEND_DIR:
     app.mount("/", StaticFiles(directory=FRONTEND_DIR, html=True), name="frontend")
+
+    @app.get("/", include_in_schema=False)
+    def _serve_frontend_index():
+        return FileResponse(os.path.join(FRONTEND_DIR, "index.html"), media_type="text/html")
